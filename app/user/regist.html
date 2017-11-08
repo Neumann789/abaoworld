@@ -1,0 +1,134 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户注册</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+            position: relative;
+            top: 50%;
+            transform: translateY(50%);
+        }
+
+        .row{
+            display: table-cell;
+            vertical-align: middle;
+        }
+        /* centered columns styles */
+        .row-centered {
+            text-align:center;
+        }
+        .col-centered {
+            display:inline-block;
+            float:none;
+            text-align:left;
+            margin-right:-4px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="row row-centered">
+        <div class="well col-md-6 col-centered">
+            <h2>欢迎注册</h2>
+            <form id="registForm" action="http://192.168.1.101:8080/stroesign/member/register" method="post" role="form">
+                <div class="input-group input-group-md">
+                    <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control" id="usrName" name="usrName" placeholder="请设置用户名"/>
+                </div>
+                <div class="input-group input-group-md">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input type="password" class="form-control" id="usrPwd" name="usrPwd" placeholder="请设置密码"/>
+                </div>
+                <div class="input-group input-group-md">
+                    <span class="input-group-addon" ><i class="glyphicon glyphicon-tree-deciduous"></i></span>
+                    <input type="text" class="form-control" id="usrEmail" name="usrEmail" placeholder="请设置邮箱"/>
+                </div>
+                <div class="input-group input-group-md">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-tree-deciduous"></i></span>
+                    <input type="text" class="form-control" id="usrPhone" name="usrPhone" placeholder="请设置手机号"/>
+                </div>
+                <br/>
+                <button type="button" onclick="checkSubmit()" class="btn btn-success btn-block">注册</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function checkSubmit() {
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://192.168.1.104:8080/stroesign/member/register',
+            data:
+                {
+                "usrName":$("#usrName").val(),
+                "usrPwd":$("#usrPwd").val(),
+                "usrEmail":$("#usrEmail").val(),
+                "usrPhone":$("#usrPhone").val()
+                },
+
+            crossDomain: true,
+            dataType: "jsonp",
+            jsonp: "callback",
+            success: function (data) {
+                var homeDiv = window.parent.document.getElementById("homeDiv")
+                console.log("返回响应结果:"+data.responseCode+"-"+data.responseMessage);
+                if(data.responseCode=='S0000'){
+                    //console.log("返回响应结果:"+data.responseMessage);
+                    //window.location.assign("user/common/result.html");
+                    //$(homeDiv).load("user/common/result.html");
+                    $(homeDiv).html("<span style='color: red'>注册成功</span>");
+                }else{
+                    $(homeDiv).html("<span style='color: red'>注册失败，原因:"+data.responseMessage+"</span>");
+                }
+
+            }
+        });
+
+    }
+
+    function checkSubmit2() {
+        var url="user/common/result.html";
+        var baseRef = window.location.href;
+        var aa = baseRef.indexOf("=");
+        if(0 < aa)  {
+            url=baseRef.substring(aa+1);
+        }
+        console.log("url:"+url);
+        //ajax submit.
+        $("#registForm").submit(function()  {
+            console.log("发送请求");
+            $(this).ajaxSubmit({
+                success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                    var obj = eval("("+data+")");
+                    console.log(obj);
+                    if(obj.result=="0000")  {
+                        window.location.assign(url);
+                    }
+                    else {
+                        $.noty.consumeAlert({layout: 'top', type: 'error', dismissQueue: true,timeout:2000});
+                        alert("登录失败,请重试!");
+                    }
+                }
+            });
+            return false;
+        });
+    };
+
+</script>
+
+</body>
+</html>

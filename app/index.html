@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>阿保世界</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+         .vertical-center{
+             position: absolute;
+             top: 32%;
+             left: 50%;
+             transform: translate(-50%, -50%);
+         }
+    </style>
+
+</head>
+<body style="background-color: #dddddd; height: 100%; " onload="loadHtml('#homeDiv','home')">
+<div class="navbar-collapse collapse ">
+    <nav class="navbar navbar-inverse navbar-header navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+        <div class="navbar-header">
+            <a data-toggle="tab" class="navbar-brand active" href="#homeDiv" id="home">阿保世界</a>
+        </div>
+        <div class="callapse navbar-collapse">
+            <ul class="nav navbar-nav" id="mytab">
+                <li><a href="#javaDiv"  data-toggle="tab" id="java">java</a></li>
+                <li><a href="#htmlDiv"  data-toggle="tab" id="html">html</a> </li>
+                <li><a href="#javascriptDiv"  data-toggle="tab" id="javascript">javascript</a> </li>
+                <li ><a href="#cssDiv"  data-toggle="tab" id="css">css</a> </li>
+                <li><a href="#bootstrapDiv"  data-toggle="tab" id="bootstrap">bootstrap</a> </li>
+            </ul>
+
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a data-toggle="tab" href="#videoDiv" id="video">视频</a></li>
+                <li class="dropdown">
+                    <a href="#" id="proManager" class="dropdown-toggle" data-hover="dropdown" data-delay="0" data-close-others="false" data-toggle="dropdown">
+                        问题管理<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="proManager">
+                        <li><a tabindex="-1" data-toggle="tab" href="#proShow"  id="proShow">展示</a></li>
+                        <li><a tabindex="-1" data-toggle="tab" href="#proAdd" id="proAdd">提问</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <form class="navbar-form " role="search">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="搜索">
+                        </div>
+                        <button type="submit" class="btn btn-danger" >搜索</button>
+
+                    </form>
+                </li>
+<!--                <li><a data-toggle="tab" href="#rigesterDiv" id="regist">注册</a></li>
+                <li><a  data-toggle="tab" href="#loginDiv" id="login">登录</a></li>-->
+                <li>
+                    <a href="#loginDiv" class="btn btn-sm"  data-toggle="modal" data-target="#loginModal" id="login">登录</a>
+                </li>
+                <li><a data-toggle="tab" href="#userInfoDiv" id="userInfo" class="hidden" >anonymous</a></li>
+                <li><a  data-toggle="tab" href="#loginoutDiv" id="loginout"  class="hidden">退出</a></li>
+                <li class="dropdown">
+                    <a href="#" id="myTabDrop" class="dropdown-toggle" data-hover="dropdown" data-delay="0" data-close-others="false" data-toggle="dropdown">
+                        我的<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop">
+                        <li><a tabindex="-1" data-toggle="tab" href="#helpDiv" id="help">帮助</a></li>
+                        <li><a tabindex="-1" data-toggle="tab" href="#feedbackDiv" id="feedback">反馈</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+        </div>
+    </nav>
+    <br><br><br>
+
+
+
+    <!--style="width:80%;background: red"-->
+        <div class="vertical-center"  style="height:85%;width:80%;background:palegoldenrod;margin-top: 8%"  id="homeDiv">
+
+        </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <ul id="loginAndRegisterTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#loginModalDiv" data-toggle="tab">
+                            登录
+                        </a>
+                    </li>
+                    <li><a href="#registerModalDiv" data-toggle="tab">注册</a></li>
+                </ul>
+                <div class="modal-body tab-content">
+                    <div class="tab-pane fade in active" id="loginModalDiv">
+                        <form  method="post" role="form">
+                            <div class="input-group input-group-md">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" id="usrName" name="usrName" placeholder="用户名/手机/邮箱"/>
+                            </div>
+                            <div class="input-group input-group-md">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input type="password" class="form-control" id="usrPwd" name="usrPwd" placeholder="请输入密码"/>
+                            </div>
+                            <br/>
+                            <button type="button" onclick="loginSubmit()" class="btn btn-success btn-block">登录</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="registerModalDiv">
+                        <form id="registForm"  method="post" role="form">
+                            <div class="input-group input-group-md">
+                                <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" id="registUsrName" name="registUsrName" placeholder="请设置用户名"/>
+                            </div>
+                            <div class="input-group input-group-md">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input type="password" class="form-control" id="registUsrPwd" name="registUsrPwd" placeholder="请设置密码"/>
+                            </div>
+                            <div class="input-group input-group-md">
+                                <span class="input-group-addon" ><i class="glyphicon glyphicon-tree-deciduous"></i></span>
+                                <input type="text" class="form-control" id="registUsrEmail" name="registUsrEmail" placeholder="请设置邮箱"/>
+                            </div>
+                            <div class="input-group input-group-md">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-tree-deciduous"></i></span>
+                                <input type="text" class="form-control" id="registUsrPhone" name="registUsrPhone" placeholder="请设置手机号"/>
+                            </div>
+                            <br/>
+                            <button type="button" onclick="registerSubmit()" class="btn btn-success btn-block">注册</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    function centerModals() {
+        $('#loginModal').each(function(i) {
+            var $clone = $(this).clone().css('display','block').appendTo('body');
+            var top = Math.round(($clone.height() - $clone.find('.modal-content').height()) / 2);
+            top = top > 0 ? top : 0;
+            $clone.remove();
+            $(this).find('.modal-content').css("margin-top", top);
+        });
+    }
+    //让登录模态框垂直居中
+    $('#loginModal').on('show.bs.modal', centerModals);
+
+    $(function(){
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+            var activeTab = $(e.target).attr('id');
+            console.log(activeTab);
+            if("regist,login,help,feedback,userInfo,loginout".indexOf(activeTab)>=0){
+                loadUserHtml("#homeDiv",activeTab);
+            }else if("proAdd,proShow".indexOf(activeTab)>=0){
+                loadProManagerHtml("#homeDiv",activeTab);
+            }else {
+                loadHtml("#homeDiv",activeTab);
+            }
+        });
+    });
+
+    function loadHtml(divName,catagory) {
+        $(divName).load(catagory+"/"+catagory+".html");
+    }
+
+    function loadUserHtml(divName,catagory) {
+        $(divName).load("user/"+catagory+".html");
+    }
+    function loadProManagerHtml(divName,catagory) {
+        $(divName).load("manager/proManager/"+catagory+".html");
+    }
+
+
+
+    function loginSubmit() {
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://192.168.1.102:8080/stroesign/member/login',
+            data:
+                {
+                    "usrName":$("#usrName").val(),
+                    "usrPwd":$("#usrPwd").val()
+                },
+
+            crossDomain: true,
+            dataType: "jsonp",
+            jsonp: "callback",
+            success: function (data) {
+                var homeDiv = window.parent.document.getElementById("homeDiv");
+                var registDiv = window.parent.document.getElementById("regist");
+                var loginDiv = window.parent.document.getElementById("login");
+                var userInfoDiv = window.parent.document.getElementById("userInfo");
+                var loginoutDiv = window.parent.document.getElementById("loginout");
+                console.log("返回响应结果:"+data.responseCode+"-"+data.responseMessage);
+                if(data.responseCode=='S0000'){
+
+                    $(registDiv).addClass("hidden");
+                    $(loginDiv).addClass("hidden");
+                    $(userInfoDiv).removeClass("hidden");
+                    $(loginoutDiv).removeClass("hidden");
+                    $(userInfoDiv).html(data.body.usrName);
+                    $(homeDiv).load("home/home.html");
+                    $('#loginModal').modal('hide');
+                }else{
+                    //$(homeDiv).html("<span style='color: red'>登录失败，原因:"+data.responseMessage+"</span>");
+                    alert("登录失败，原因:"+data.responseMessage);
+                }
+
+            }
+        });
+
+    }
+
+    function registerSubmit() {
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://192.168.1.102:8080/stroesign/member/register',
+            data: {
+                "usrName": $("#registUsrName").val(),
+                "usrPwd": $("#registUsrPwd").val(),
+                "usrEmail": $("#registUsrEmail").val(),
+                "usrPhone": $("#registUsrPhone").val()
+            },
+
+            crossDomain: true,
+            dataType: "jsonp",
+            jsonp: "callback",
+            success: function (data) {
+                var homeDiv = window.parent.document.getElementById("homeDiv")
+                console.log("返回响应结果:" + data.responseCode + "-" + data.responseMessage);
+                if (data.responseCode == 'S0000') {
+                    //console.log("返回响应结果:"+data.responseMessage);
+                    //window.location.assign("user/common/result.html");
+                    //$(homeDiv).load("user/common/result.html");
+                    $('#loginModal').modal('hide');
+                } else {
+                    alert("注册失败，原因:" + data.responseMessage);
+                }
+
+            }
+        })
+    }
+</script>
+</body>
+</html>

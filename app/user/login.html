@@ -1,0 +1,100 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户登录</title>
+
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+            top: 50%;
+            transform: translateY(50%);
+
+        }
+
+        .row{
+            display: table-cell;
+            vertical-align: middle;
+        }
+        /* centered columns styles */
+        .row-centered {
+            text-align:center;
+        }
+        .col-centered {
+            display:inline-block;
+            float:none;
+            text-align:left;
+            margin-right:-4px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="row row-centered">
+        <div class="well col-md-6 col-centered">
+            <h2>欢迎登录</h2>
+            <form action="/login" method="post" role="form">
+                <div class="input-group input-group-md">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control" id="usrName" name="usrName" placeholder="用户名/手机/邮箱"/>
+                </div>
+                <div class="input-group input-group-md">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input type="password" class="form-control" id="usrPwd" name="usrPwd" placeholder="请输入密码"/>
+                </div>
+                <br/>
+                <button type="button" onclick="checkSubmit()" class="btn btn-success btn-block">登录</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function checkSubmit() {
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://192.168.1.104:8080/stroesign/member/login',
+            data:
+                {
+                    "usrName":$("#usrName").val(),
+                    "usrPwd":$("#usrPwd").val()
+                },
+
+            crossDomain: true,
+            dataType: "jsonp",
+            jsonp: "callback",
+            success: function (data) {
+                var homeDiv = window.parent.document.getElementById("homeDiv");
+                var registDiv = window.parent.document.getElementById("regist");
+                var loginDiv = window.parent.document.getElementById("login");
+                var userInfoDiv = window.parent.document.getElementById("userInfo");
+                var loginoutDiv = window.parent.document.getElementById("loginout");
+                console.log("返回响应结果:"+data.responseCode+"-"+data.responseMessage);
+                if(data.responseCode=='S0000'){
+
+                    $(registDiv).addClass("hidden");
+                    $(loginDiv).addClass("hidden");
+                    $(userInfoDiv).removeClass("hidden");
+                    $(loginoutDiv).removeClass("hidden");
+                    $(userInfoDiv).html(data.body.usrName);
+                    $(homeDiv).load("home/home.html");
+
+                }else{
+                    $(homeDiv).html("<span style='color: red'>登录失败，原因:"+data.responseMessage+"</span>");
+                }
+
+            }
+        });
+
+    }
+
+</script>
+
+</body>
+</html>

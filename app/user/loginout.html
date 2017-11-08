@@ -1,0 +1,65 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>退出</title>
+
+</head>
+
+<body>
+<div id="loginoutDiv">
+
+</div>
+
+<script>
+
+    (function(){
+        console.log("excute loginout");
+        checkSubmit();
+
+    }());
+
+    function checkSubmit() {
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://192.168.1.104:8080/stroesign/member/loginout',
+            data:
+                {
+                    "usrName":$("#usrName").val(),
+                    "usrPwd":$("#usrPwd").val()
+                },
+
+            crossDomain: true,
+            dataType: "jsonp",
+            jsonp: "callback",
+            success: function (data) {
+                var homeDiv = window.parent.document.getElementById("homeDiv");
+                var registDiv = window.parent.document.getElementById("regist");
+                var loginDiv = window.parent.document.getElementById("login");
+                var userInfoDiv = window.parent.document.getElementById("userInfo");
+                var loginoutDiv = window.parent.document.getElementById("loginout");
+                console.log("返回响应结果:"+data.responseCode+"-"+data.responseMessage);
+                if(data.responseCode=='S0000'){
+
+                        $(registDiv).removeClass("hidden");
+                        $(loginDiv).removeClass("hidden");
+                        $(userInfoDiv).addClass("hidden");
+                        $(loginoutDiv).addClass("hidden");
+                        $(userInfoDiv).html("anonymous");
+                        $(homeDiv).load("home/home.html");
+                    $(homeDiv).load("home/home.html");
+                }else{
+                    $("#loginoutDiv").html("<span style='color: red'>退出失败，原因:"+data.responseMessage+"</span>");
+                }
+
+            }
+        });
+
+    }
+
+</script>
+
+</body>
+</html>

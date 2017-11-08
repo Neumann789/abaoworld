@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>阿保世界</title>
+    <link href="../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.js"></script>
+
+
+</head>
+<body>
+<div class="navbar-collapse collapse">
+    <nav class="navbar navbar-inverse navbar-header navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a data-toggle="tab" class="navbar-brand active" href="#homeDiv">极客</a>
+            </div>
+
+
+
+        <div class="callapse navbar-collapse">
+            <ul class="nav navbar-nav" id="mytab">
+                <li data-toggle="tab" ><a href="#javaDiv">java</a></li>
+                <li data-toggle="tab" ><a href="#htmlDiv">html</a> </li>
+                <li data-toggle="tab" ><a href="#javascriptDiv">javascript</a> </li>
+                <li data-toggle="tab" ><a href="#cssDiv">css</a> </li>
+                <li data-toggle="tab" ><a href="#bootstrapDiv">bootstrap</a> </li>
+
+            </ul>
+
+            <form class="navbar-form navbar-left" role="search">
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="搜索">
+                </div>
+                <button type="submit" class="btn btn-danger" >搜索</button>
+
+            </form>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" id="myTabDrop" class="dropdown-toggle" data-hover="dropdown" data-delay="0" data-close-others="false" data-toggle="dropdown">
+                        我的<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop">
+                        <li><a tabindex="-1" data-toggle="tab" href="#rigesterDiv">注册</a></li>
+                        <li><a tabindex="-1" data-toggle="tab" href="#loginDiv">登录</a></li>
+                        <li><a tabindex="-1" data-toggle="tab" href="#helpDiv">帮助</a></li>
+                        <li><a tabindex="-1" data-toggle="tab" href="#feedbackDiv">反馈</a></li>
+
+                    </ul>
+
+                </li>
+            </ul>
+
+        </div>
+        </div>
+    </nav>
+    <br><br><br><br>
+    <div id="myTabContent" class="tab-content ">
+
+        <div class="tab-pane fade in active" id="homeDiv">
+            <p>此内容与home有关</p>
+
+        </div>
+        <div class="tab-pane fade" id="javaDiv">
+            <p>此内容与java有关</p>
+
+        </div>
+        <div class="tab-pane fade" id="htmlDiv">
+            <p>此内容与html有关</p>
+        </div>
+        <div class="tab-pane fade" id="javascriptDiv">
+            <p>此内容与javascript有关</p>
+        </div>
+        <div class="tab-pane fade" id="htmlDiv">
+            <p>此内容与html有关</p>
+        </div>
+        <div class="tab-pane fade" id="cssDiv">
+            <p>此内容与css有关</p>
+        </div>
+        <div class="tab-pane fade" id="bootstrapDiv">
+
+        </div>
+        <div class="tab-pane fade" id="rigesterDiv">
+            <p>此内容与注册有关</p>
+        </div>
+        <div class="tab-pane fade" id="loginDiv">
+            <!-- Modal -->
+            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Forgot Password ?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Enter your e-mail address below to reset your password.</p>
+                            <input type="text" name="email" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                            <button class="btn btn-theme" type="button">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- modal -->
+        </div>
+        <div class="tab-pane fade" id="helpDiv">
+            <p>此内容与帮助有关</p>
+        </div>
+        <div class="tab-pane fade" id="feedbackDiv">
+            <p>此内容与反馈有关</p>
+        </div>
+    </div>
+</div>
+<script>
+
+    $("#mytab a").click(function (e) {
+        e.preventDefault();
+        $(this).tab("show");
+    })
+</script>
+</body>
+</html>

@@ -5,53 +5,106 @@
     <title>提问</title>
 </head>
 <body>
-<form role="form" class="col-md-12">
+
     <div class="form-group form-inline">
-        <label for="name">标题:</label>
+        <label for="proTitle">标题:</label>
         <textarea class="form-control" id="proTitle" name="proTitle" placeholder="请输入简要描述" rows="2" cols="80"></textarea>
     </div>
     <div class="form-group form-inline">
-        <label for="name">内容:</label>
-        <textarea class="form-control" id="proContext" name="proContext" placeholder="请输入详细描述" rows="8" cols="80"></textarea>
+        <label for="editor">内容:</label>
+        <div id="editor" >
+            <p>请输入<b>问题</b></p>
+        </div>
     </div>
-    <button onclick="proSubmit()" class="btn btn-success pull-right">提交</button>
-</form>
-<script>
 
-    function proSubmit() {
-        var homeDiv = window.parent.document.getElementById("homeDiv")
-        $(homeDiv).html("<span style='color: green'>提问成功</span>");
-        /*$.ajax({
+    <button class="btn btn-success pull-right" id="proSubmitBtn">提交</button>
+    <button class="btn btn-success pull-right" id="preViewBtn">预览</button>
+    <br><br><br>
+    <div id="preViewDiv">
+
+    </div>
+
+<!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+<script type="text/javascript" src="wangEditor.min.js"></script>
+<script type="text/javascript">
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    // 或者 var editor = new E( document.getElementById('#editor') )
+    // 下面两个配置，使用其中一个即可显示“上传图片”的tab。但是两者不要同时使用！！！
+    //editor.customConfig.uploadImgShowBase64 = true   // 使用 base64 保存图片
+    editor.customConfig.withCredentials = false;
+    editor.customConfig.uploadImgServer = 'http://127.0.0.1:58080/abaoworld/problem/upload';  // 上传图片到服务器
+    editor.customConfig.uploadFileName = 'myFileName';
+    editor.customConfig.uploadImgHeaders = {
+        'Accept': 'text/x-json'
+    };
+    editor.customConfig.uploadImgHooks = {
+        before: function (xhr, editor, files) {
+            console.log("before");
+        },
+        success: function (xhr, editor, result) {
+            console.log("success");
+        },
+        fail: function (xhr, editor, result) {
+            console.log("fail");
+        },
+        error: function (xhr, editor) {
+            console.log("error");
+        },
+        timeout: function (xhr, editor) {
+            console.log("timeout");
+        },
+
+        // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+        // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
+        customInsert: function (insertImg, result, editor) {
+            console.log("customInsert");
+            var url = result.url
+            insertImg(url)
+        }
+    };
+    editor.create();
+
+    document.getElementById('proSubmitBtn').addEventListener('click', function () {
+        addProSubmit();
+    }, false);
+
+    document.getElementById('preViewBtn').addEventListener('click', function () {
+        $('#preViewDiv').html(editor.txt.html());
+    }, false);
+
+
+
+    function addProSubmit() {
+
+        $.ajax({
             type: 'POST',
-            url: 'http://192.168.1.101:8080/stroesign/member/register',
+            url: 'http://127.0.0.1:58080/abaoworld/problem/addPro',
             data:
                 {
-                    "usrName":$("#usrName").val(),
-                    "usrPwd":$("#usrPwd").val(),
-                    "usrEmail":$("#usrEmail").val(),
-                    "usrPhone":$("#usrPhone").val()
+                    "proTitle":$("#proTitle").val(),
+                    "proContent":editor.txt.html()
                 },
 
             crossDomain: true,
             dataType: "jsonp",
             jsonp: "callback",
             success: function (data) {
-                var homeDiv = window.parent.document.getElementById("homeDiv")
-                console.log("返回响应结果:"+data.responseCode+"-"+data.responseMessage);
-                if(data.responseCode=='0000'){
-                    //console.log("返回响应结果:"+data.responseMessage);
-                    //window.location.assign("user/common/result.html");
-                    //$(homeDiv).load("user/common/result.html");
-                    $(homeDiv).html("<span style='color: red'>注册成功</span>");
+                var homeDiv = window.parent.document.getElementById("homeDiv");
+                console.log("返回响应结果:"+data.rspCode+"-"+data.rspMsg);
+                if(data.rspCode=='0000'){
+                    $(homeDiv).load("home/home.html");
                 }else{
-                    $(homeDiv).html("<span style='color: red'>注册失败，原因:"+data.responseMessage+"</span>");
+                    alert("登录失败，原因:"+data.rspMsg);
                 }
 
             }
-        });*/
+        });
 
     }
 
+
 </script>
+
 </body>
 </html>

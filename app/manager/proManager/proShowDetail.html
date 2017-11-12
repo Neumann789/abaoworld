@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问题详情</title>
+    <script languge=javascript>
+        console.log(window.sessionStorage.getItem("proTitle"));
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://127.0.0.1:58080/abaoworld/problem/queryProById',
+            data:{
+                "proId":window.sessionStorage.getItem("proId")
+            },
+            crossDomain: true,
+            dataType: "jsonp",
+            jsonp: "callback",
+            success: function (data) {
+                if(data.rspCode!='0000'){
+                    alert("失败，原因:"+data.rspMsg);
+                    return;
+                }
+                $("#proDetailHeader").html("标题:"+data.body.proTitle);
+                $("#proDetailBody").html(data.body.proContent);
+
+            }
+        });
+        
+        function goBackProList() {
+            $("#homeDiv").load("manager/proManager/proListShow.html");
+        }
+
+    </script>
+</head>
+<body>
+
+    <div class="form-group form-inline">
+        <button type="button" class="btn btn-info pull-right" onclick="goBackProList()">返回</button>
+    </div>
+    <br><br>
+    <h1 id="proDetailHeader"></h1>
+    <br>
+    <div id="proDetailBody"></div>
+
+</body>
+</html>

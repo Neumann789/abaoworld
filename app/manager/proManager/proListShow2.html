@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问题</title>
+    <script>
+        $(function(){
+            search();
+        });
+        function search(){
+
+            //得到每页显示条数
+            var pageSize=50;
+            //得到显示第几页
+            var pageNo=1;
+
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://127.0.0.1:58080/abaoworld/problem/queryProList',
+                data:{
+                    "pageSize":pageSize,
+                    "pageNo":pageNo
+                },
+                crossDomain: true,
+                dataType: "jsonp",
+                jsonp: "callback",
+                success: function (data) {
+                    if(data.rspCode!='0000'){
+                        alert("失败，原因:"+data.rspMsg);
+                        return;
+                    }
+                    //得到结果集
+                    obj=data.body.prolist;
+                    //将除模板行的thead删除，即删除之前的数据重新加载
+                    $("thead").eq(0).nextAll().remove();
+                    //将获取到的数据动态的加载到table中
+                    for (var i = 0; i < obj.length; i++) {
+                        //获取模板行，复制一行
+                        var row = $("#proItem").clone();
+
+                        //给每一行赋值href='#proTitleDiv'
+                        row.find("#proTitle").html(
+                            "<a  class='btn btn-sm'  href='javascript:showProDetail("+i+")'  name='proTitleA'>"+
+                            obj[i].proTitle+"</a>"
+                        ); //问题标题
+                        //将新行添加到表格中
+                        row.appendTo("#proTable");
+                    }
+                    //$("#proTable th:first").remove();
+                }
+            });
+        }
+
+        function showProDetail(index){
+            //存储
+            window.sessionStorage.setItem("proId", obj[index].id);
+            $("#homeDiv").load("manager/proManager/proShowDetail.html");
+        }
+
+    </script>
+</head>
+<body>
+
+<div class="form-group form-inline">
+    <button type="button" class="btn btn-info pull-right glyphicon glyphicon-refresh" onclick="search()">刷新</button>
+</div>
+<div class="row ">
+    <div class="col-md-12" style="margin-top:20px;">
+        <div class="panel panel-info">
+            <table id="proTable" class="table table-striped table-bordered table-hover datatable">
+                <thead id="proItem">
+                <th id="proTitle">问题标题</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

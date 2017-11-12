@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="common.js"></script>
     <style>
          .vertical-center{
              position: absolute;
@@ -27,8 +28,6 @@
             <ul class="nav navbar-nav" id="mytab">
                 <li><a href="#javaDiv"  data-toggle="tab" id="java">java</a></li>
                 <li><a href="#htmlDiv"  data-toggle="tab" id="html">html</a> </li>
-                <li><a href="#javascriptDiv"  data-toggle="tab" id="javascript">javascript</a> </li>
-                <li ><a href="#cssDiv"  data-toggle="tab" id="css">css</a> </li>
                 <li><a href="#bootstrapDiv"  data-toggle="tab" id="bootstrap">bootstrap</a> </li>
             </ul>
 
@@ -36,13 +35,15 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a data-toggle="tab" href="#videoDiv" id="video">视频</a></li>
+                <li><a data-toggle="tab" href="#noteDiv" id="note">笔记</a></li>
                 <li class="dropdown">
                     <a href="#" id="proManager" class="dropdown-toggle" data-hover="dropdown" data-delay="0" data-close-others="false" data-toggle="dropdown">
                         问题管理<span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="proManager">
-                        <li><a tabindex="-1" data-toggle="tab" href="#proShow"  id="proShow">展示</a></li>
                         <li><a tabindex="-1" data-toggle="tab" href="#proAdd" id="proAdd">提问</a></li>
+                        <li><a tabindex="-1" data-toggle="tab" href="#proListShow"  id="proListShow">问题集</a></li>
+                        <li><a tabindex="-1" data-toggle="tab" href="#proShow"  id="proShow">展示</a></li>
                     </ul>
                 </li>
                 <li>
@@ -80,14 +81,19 @@
 
 
 
-    <!--style="width:80%;background: red"-->
-        <div class="vertical-center"  style="height:85%;width:80%;background:palegoldenrod;margin-top: 8%"  id="homeDiv">
+    <!--style="width:80%;background: red" background:palegoldenrod;-->
+        <div class="vertical-center"  style="height:85%;width:80%;margin-top: 10%"  id="homeDiv">
 
         </div>
     <!-- 模态框（Modal） -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog"  aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                </div>
                 <ul id="loginAndRegisterTab" class="nav nav-tabs">
                     <li class="active">
                         <a href="#loginModalDiv" data-toggle="tab">
@@ -139,6 +145,26 @@
         </div>
     </div>
 
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="proTitleModal"   tabindex="-1" aria-labelledby="proTitleLabel" role="dialog"  aria-hidden="true" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="proTitleLabel">
+                        问题标题
+                    </h4>
+
+                </div>
+                <div class="modal-body" id="proContentDiv">
+
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
 </div>
 <script>
     function centerModals() {
@@ -160,8 +186,10 @@
             console.log(activeTab);
             if("regist,login,help,feedback,userInfo,loginout".indexOf(activeTab)>=0){
                 loadUserHtml("#homeDiv",activeTab);
-            }else if("proAdd,proShow".indexOf(activeTab)>=0){
+            }else if("proAdd,proShow,proListShow".indexOf(activeTab)>=0){
                 loadProManagerHtml("#homeDiv",activeTab);
+            }else if("note".indexOf(activeTab)>=0){
+                loadNoteManagerHtml("#homeDiv",activeTab);
             }else {
                 loadHtml("#homeDiv",activeTab);
             }
@@ -177,6 +205,10 @@
     }
     function loadProManagerHtml(divName,catagory) {
         $(divName).load("manager/proManager/"+catagory+".html");
+    }
+
+    function loadNoteManagerHtml(divName,catagory) {
+        $(divName).load("manager/noteManager/"+catagory+".html");
     }
 
 
@@ -203,7 +235,6 @@
                 var loginoutDiv = window.parent.document.getElementById("loginout");
                 console.log("返回响应结果:"+data.responseCode+"-"+data.responseMessage);
                 if(data.responseCode=='S0000'){
-
                     $(registDiv).addClass("hidden");
                     $(loginDiv).addClass("hidden");
                     $(userInfoDiv).removeClass("hidden");
@@ -215,7 +246,6 @@
                     //$(homeDiv).html("<span style='color: red'>登录失败，原因:"+data.responseMessage+"</span>");
                     alert("登录失败，原因:"+data.responseMessage);
                 }
-
             }
         });
 
@@ -251,6 +281,7 @@
             }
         })
     }
+
 </script>
 </body>
 </html>

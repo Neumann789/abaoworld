@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>状态交换元素</title>
+    <style type="text/css">
+        body{
+            font-size:20px;
+        }
+        .inputBtn {
+            border:solid 1px #ccc;
+            background-color: #eee;
+            line-height: 18px;
+            font-size:12px;
+        }
+    </style>
+    <script type="text/javascript">
+        var intTimer;
+        var intValue = 0;
+
+
+        function intervalHandle() {
+            intValue++;
+            var proDownFile = document.getElementById("proDownFile");
+            var pTip = document.getElementById("pTip");
+            proDownFile.value = intValue;
+            if(intValue>=proDownFile.max){
+                //clearInterval(intTimer);
+                intValue=0;
+            }else{
+                pTip.innerHTML="正在下载"+intValue+"%";
+            }
+        }
+        function btn_click() {
+            intTimer = setInterval(intervalHandle,100);
+        }
+
+    </script>
+</head>
+<body>
+    <p id="pTip">开始下载</p>
+    <progress value="0" max="100" id="proDownFile"></progress>
+    <input type="button" value="下载" class="inputBtn" onclick="btn_click();">
+</body>
+</html>

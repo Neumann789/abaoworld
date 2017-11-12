@@ -1,5 +1,6 @@
 var SERVER_PRO_IP = "127.0.0.1";
 var SERVER_MEM_IP = "127.0.0.1";
+var proData = new Object();
 
 /**
  * 将时间戳转换为日期

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>交互元素2 TODO 发现command没起作用</title>
+    <script type="text/javascript">
+        document.createElement("command")
+    </script>
+    <style type="text/css">
+
+        body{
+            padding:5px;
+            font-size:12px;
+        }
+
+        menu{
+            padding-left:10px;
+            padding-bottom:10px;
+            display:block;
+            border:solid 1px #365167;
+            width:40px;
+            height: 50px;
+        }
+        command{
+            float:left;
+            margin:5px;
+            width:40px;
+            height:50px;
+        }
+
+
+
+    </style>
+
+
+</head>
+<body>
+
+    <menu>
+        <command onClick="command_click('文件')">文件</command>
+        <command onClick="command_click('打开')">打开</command>
+    </menu>
+
+</body>
+</html>

@@ -93,7 +93,7 @@
                 var homeDiv = window.parent.document.getElementById("homeDiv");
                 console.log("返回响应结果:"+data.rspCode+"-"+data.rspMsg);
                 if(data.rspCode=='0000'){
-                    $(homeDiv).load("home/home.html");
+                    $(homeDiv).load("manager/proManager/proListShow.html");
                 }else{
                     alert("登录失败，原因:"+data.rspMsg);
                 }

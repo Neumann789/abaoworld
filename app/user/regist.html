@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <script src="common.js"></script>
     <style>
         /*web background*/
         .container{
@@ -40,7 +40,7 @@
     <div class="row row-centered">
         <div class="well col-md-6 col-centered">
             <h2>欢迎注册</h2>
-            <form id="registForm" action="http://192.168.1.101:8080/stroesign/member/register" method="post" role="form">
+            <form id="registForm"  method="post" role="form">
                 <div class="input-group input-group-md">
                     <span class="input-group-addon">
                     <i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
@@ -71,7 +71,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'http://192.168.1.104:8080/stroesign/member/register',
+            url: SERVER_PRO_URL+'/abaoworld/member/register',
             data:
                 {
                 "usrName":$("#usrName").val(),
@@ -86,7 +86,7 @@
             success: function (data) {
                 var homeDiv = window.parent.document.getElementById("homeDiv")
                 console.log("返回响应结果:"+data.responseCode+"-"+data.responseMessage);
-                if(data.responseCode=='S0000'){
+                if(data.responseCode=='0000'){
                     //console.log("返回响应结果:"+data.responseMessage);
                     //window.location.assign("user/common/result.html");
                     //$(homeDiv).load("user/common/result.html");

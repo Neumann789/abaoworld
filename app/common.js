@@ -1,4 +1,5 @@
-var SERVER_PRO_URL = "http://116.62.187.97:58080";
+//var SERVER_PRO_URL = "http://116.62.187.97:58080";
+var SERVER_PRO_URL = "http://127.0.0.1:58080";
 var SERVER_MEM_IP = "127.0.0.1";
 var proData = new Object();
 

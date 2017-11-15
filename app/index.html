@@ -238,7 +238,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'http://192.168.1.102:8080/stroesign/member/login',
+            url: SERVER_PRO_URL+'/abaoworld/member/login',
             data:
                 {
                     "usrName":$("#usrName").val(),
@@ -254,8 +254,8 @@
                 var loginDiv = window.parent.document.getElementById("login");
                 var userInfoDiv = window.parent.document.getElementById("userInfo");
                 var loginoutDiv = window.parent.document.getElementById("loginout");
-                console.log("返回响应结果:"+data.responseCode+"-"+data.responseMessage);
-                if(data.responseCode=='S0000'){
+                console.log("返回响应结果:"+data.rspCode+"-"+data.rspMsg);
+                if(data.rspCode=='0000'){
                     $(registDiv).addClass("hidden");
                     $(loginDiv).addClass("hidden");
                     $(userInfoDiv).removeClass("hidden");
@@ -265,7 +265,7 @@
                     $('#loginModal').modal('hide');
                 }else{
                     //$(homeDiv).html("<span style='color: red'>登录失败，原因:"+data.responseMessage+"</span>");
-                    alert("登录失败，原因:"+data.responseMessage);
+                    alert("登录失败，原因:"+data.rspMsg);
                 }
             }
         });
@@ -276,7 +276,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'http://192.168.1.102:8080/stroesign/member/register',
+            url: SERVER_PRO_URL+'/abaoworld/member/register',
             data: {
                 "usrName": $("#registUsrName").val(),
                 "usrPwd": $("#registUsrPwd").val(),
@@ -289,14 +289,14 @@
             jsonp: "callback",
             success: function (data) {
                 var homeDiv = window.parent.document.getElementById("homeDiv")
-                console.log("返回响应结果:" + data.responseCode + "-" + data.responseMessage);
-                if (data.responseCode == 'S0000') {
+                console.log("返回响应结果:"+data.rspCode+"-"+data.rspMsg);
+                if (data.rspCode == '0000') {
                     //console.log("返回响应结果:"+data.responseMessage);
                     //window.location.assign("user/common/result.html");
                     //$(homeDiv).load("user/common/result.html");
                     $('#loginModal').modal('hide');
                 } else {
-                    alert("注册失败，原因:" + data.responseMessage);
+                    alert("注册失败，原因:" + data.rspMsg);
                 }
 
             }

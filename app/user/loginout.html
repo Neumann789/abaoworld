@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>退出</title>
-
+    <script src="common.js"></script>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'http://192.168.1.104:8080/stroesign/member/loginout',
+            url: SERVER_PRO_URL+'/abaoworld/member/loginout',
             data:
                 {
                     "usrName":$("#usrName").val(),
@@ -40,8 +40,8 @@
                 var loginDiv = window.parent.document.getElementById("login");
                 var userInfoDiv = window.parent.document.getElementById("userInfo");
                 var loginoutDiv = window.parent.document.getElementById("loginout");
-                console.log("返回响应结果:"+data.responseCode+"-"+data.responseMessage);
-                if(data.responseCode=='S0000'){
+                console.log("返回响应结果:"+data.rspCode+"-"+data.rspMsg);
+                if(data.rspCode=='0000'){
 
                         $(registDiv).removeClass("hidden");
                         $(loginDiv).removeClass("hidden");
@@ -51,7 +51,7 @@
                         $(homeDiv).load("home/home.html");
                     $(homeDiv).load("home/home.html");
                 }else{
-                    $("#loginoutDiv").html("<span style='color: red'>退出失败，原因:"+data.responseMessage+"</span>");
+                    $("#loginoutDiv").html("<span style='color: red'>退出失败，原因:"+data.rspMsg+"</span>");
                 }
 
             }

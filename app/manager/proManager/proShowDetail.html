@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>问题详情</title>
+    <script src="common.js"></script>
     <script languge=javascript>
         console.log(window.sessionStorage.getItem("proTitle"));
 
         $.ajax({
             type: 'POST',
-            url: 'http://127.0.0.1:58080/abaoworld/problem/queryProById',
+            url: SERVER_PRO_URL+'/abaoworld/problem/queryProById',
             data:{
                 "proId":window.sessionStorage.getItem("proId")
             },

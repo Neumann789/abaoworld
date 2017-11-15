@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>提问</title>
+    <script src="common.js"></script>
 </head>
 <body>
 
@@ -33,7 +34,7 @@
     // 下面两个配置，使用其中一个即可显示“上传图片”的tab。但是两者不要同时使用！！！
     //editor.customConfig.uploadImgShowBase64 = true   // 使用 base64 保存图片
     editor.customConfig.withCredentials = false;
-    editor.customConfig.uploadImgServer = 'http://127.0.0.1:58080/abaoworld/problem/upload';  // 上传图片到服务器
+    editor.customConfig.uploadImgServer = SERVER_PRO_URL+'/abaoworld/problem/upload';  // 上传图片到服务器
     editor.customConfig.uploadFileName = 'myFileName';
     editor.customConfig.uploadImgHeaders = {
         'Accept': 'text/x-json'
@@ -79,7 +80,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'http://127.0.0.1:58080/abaoworld/problem/addPro',
+            url: SERVER_PRO_URL+'/abaoworld/problem/addPro',
             data:
                 {
                     "proTitle":$("#proTitle").val(),

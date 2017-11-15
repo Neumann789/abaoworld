@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>问题</title>
+    <script src="common.js"></script>
     <script>
         $(function(){
             search();
@@ -17,7 +18,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'http://127.0.0.1:58080/abaoworld/problem/queryProList',
+                url: SERVER_PRO_URL+'/abaoworld/problem/queryProList',
                 data:{
                     "pageSize":pageSize,
                     "pageNo":pageNo

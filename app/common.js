@@ -27,4 +27,23 @@ function getzf(num){
     return num;
 }
 
+function  doPost(urlPath,jsonData,callback) {
+    $.ajax({
+        type: 'POST',
+        url: SERVER_PRO_URL+urlPath,
+        data:jsonData,
+        crossDomain: true,
+        dataType: "jsonp",
+        jsonp: "callback",
+        success: function (data) {
+            console.log("返回响应结果:"+data.rspCode+"-"+data.rspMsg);
+            if(data.rspCode!='0000'){
+                alert("失败，原因:"+data.rspCode+"-"+data.rspMsg);
+                return;
+            }
+            callback(data);
+        }
+    });
+}
+
 //alert(chgTimestamp2Date(1510202474971))

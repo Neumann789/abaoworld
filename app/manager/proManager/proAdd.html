@@ -14,6 +14,7 @@
     </div>
     <div class="form-group form-inline">
         <label id="tagListShow">标签集:</label>
+        <input id="tagIds" value="" type="hidden"/>
     </div>
     <div class="form-group form-inline">
         <label for="editor">内容:</label>
@@ -108,6 +109,40 @@
 
     }
 
+    $('#addTagModal').on('show.bs.modal', function () {
+        // 查询并展示标签列表
+        console.log('show taglist');
+        doPost(
+            '/abaoworld/problem/queryAllTags',
+            {},
+            function (data) {
+                var total = data.body.total;
+                var list = data.body.list;
+                var tagListStr = "";
+                for (var i = 0; i < list.length; i++) {
+                    tagListStr +="<div class='checkbox'><label><input type='checkbox' name='tagCheckBox' value='"+list[i].id+"'>"+list[i].tagName+"</label></div>";
+                }
+                $('#addTagDiv').html(tagListStr);
+            }
+        )
+    });
+
+    var tagIds = "";
+    var tagNames = "";
+
+    $("input:checkbox[name='tagCheckBox']:checked").each(function(i){
+            console.log('checkbox');
+            tagIds += (","+$(this).val());
+            tagNames += ("|"+$(this).txt);
+    });
+
+    
+    function confirmTagList() {
+        console.log(tagNames+"====="+tagIds);
+        $('#tagListShow').html('标签集:'+tagNames);
+        $('#tagIds').val(tagIds);
+        $('#addTagModal').modal('hide');
+    }
 
 </script>
 

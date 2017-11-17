@@ -89,7 +89,8 @@
             data:
                 {
                     "proTitle":$("#proTitle").val(),
-                    "proContent":editor.txt.html()
+                    "proContent":editor.txt.html(),
+                    "tagList":$("#tagIds").val()
                 },
 
             crossDomain: true,
@@ -120,28 +121,35 @@
                 var list = data.body.list;
                 var tagListStr = "";
                 for (var i = 0; i < list.length; i++) {
-                    tagListStr +="<div class='checkbox'><label><input type='checkbox' name='tagCheckBox' value='"+list[i].id+"'>"+list[i].tagName+"</label></div>";
+                    tagListStr +="<div class='checkbox'><label><input type='checkbox' name='tagCheckBox' data-tagname='"+list[i].tagName+"' value='"+list[i].id+"'>"+list[i].tagName+"</label></div>";
                 }
                 $('#addTagDiv').html(tagListStr);
+
             }
         )
     });
 
-    var tagIds = "";
-    var tagNames = "";
 
-    $("input:checkbox[name='tagCheckBox']:checked").each(function(i){
-            console.log('checkbox');
-            tagIds += (","+$(this).val());
-            tagNames += ("|"+$(this).txt);
-    });
+
+
 
     
     function confirmTagList() {
+        var tagIds = "";
+        var tagNames = "";
+
+        $("input:checkbox[name='tagCheckBox']:checked").each(function(){
+            tagIds += (","+$(this).val());
+            tagNames += ("|"+$(this).data('tagname'));
+        });
         console.log(tagNames+"====="+tagIds);
+        tagIds = tagIds.removeFirst(",")
+        tagNames = tagNames.removeFirst("|");
         $('#tagListShow').html('标签集:'+tagNames);
         $('#tagIds').val(tagIds);
         $('#addTagModal').modal('hide');
+
+
     }
 
 </script>

@@ -46,4 +46,29 @@ function  doPost(urlPath,jsonData,callback) {
     });
 }
 
+String.prototype.endWith=function(endStr){
+    var d=this.length-endStr.length;
+    return (d>=0&&this.lastIndexOf(endStr)==d)
+}
+
+String.prototype.startWith=function(startStr){
+    return this.indexOf(startStr)==0;
+}
+
+/**
+ * 删除以startStr开头的字符串中startStr
+ * 如果开头不存在,则直接返回自身
+ * @param startStr
+ * @returns {*}
+ */
+String.prototype.removeFirst=function (startStr) {
+    if(this.startWith(startStr)){
+        return this.substring(startStr.length);
+    }else {
+        return this;
+    }
+}
+
 //alert(chgTimestamp2Date(1510202474971))
+//alert("abcd".startWith("ab"));
+//alert("abcd".substring("ab".length,"abcd".length));

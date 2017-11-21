@@ -21,7 +21,22 @@
                     alert("失败，原因:"+data.rspMsg);
                     return;
                 }
+                var tagList = data.body.tagList;
+                var tagNames = "";
+                if(tagList!=null){
+                    console.log("tagList.size:"+tagList.length);
+                    for(var i=0;i<tagList.length;i++){
+                        if(i==0){
+                            tagNames += tagList[i].tagName;
+                        }else{
+                            tagNames += "|"+ tagList[i].tagName;
+                        }
+                    }
+
+                }
                 $("#proDetailHeader").html("标题:"+data.body.proTitle);
+                $("#proSource").html("来源:"+data.body.source);
+                $("#proTagList").html("标签:"+tagNames);
                 $("#proDetailBody").html(data.body.proContent);
 
             }
@@ -32,6 +47,13 @@
         }
 
     </script>
+    <style type="text/css">
+
+        .block {
+            display: inline;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -39,9 +61,26 @@
         <button type="button" class="btn btn-info pull-right" onclick="goBackProList()">返回</button>
     </div>
     <br><br>
-    <h1 id="proDetailHeader"></h1>
+    <h3 id="proDetailHeader"></h3>
+    <h4 id="proSource"></h4>
+    <h4 id="proTagList"></h4>
+    <br>
     <br>
     <div id="proDetailBody"></div>
+
+
+
+    <div class="row" id="visitorShow">
+        <div class="form-inline">
+            <div id="visitCount" class="block">浏览次数</div>
+            <div id="agreeDiv" class="block">点赞</div>
+            <div id="commentDiv" class="block">评论</div>
+        </div>
+    </div>
+    <div id="commentList">
+
+
+    </div>
 
 </body>
 </html>

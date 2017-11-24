@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        function resCalc()
+        {
+            numA=document.getElementById("num1").value;
+            numB=document.getElementById("num2").value;
+            document.getElementById("result").value=Number(numA)+Number(numB);
+        }
+    </script>
+</head>
+<body>
+<form id="frmTmp">
+
+    <fieldset>
+        <legend>请输入两个数字:</legend>
+        <input id="num1" type="text"/> X
+        <input id="num2" type="text"/> =
+        <output id="result" onFormInput="resCalc()"></output>
+    </fieldset>
+
+</form>
+</body>
+</html>

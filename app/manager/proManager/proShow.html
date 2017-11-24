@@ -117,6 +117,10 @@
                         ); //问题标题
                         row.find("#proContent").text(obj[i].proContent);
                         row.find("#createTime").text(chgTimestamp2Date(obj[i].createTime));
+                        row.find("#modify").html(
+                            "<a  class='btn btn-sm'  href='javascript:modifyProDetail("+i+")' name='proTitleA'>"+
+                            obj[i].proTitle+"</a>"
+                        );
 
 
                         //将新行添加到表格中
@@ -205,6 +209,12 @@
             $('#proContentDiv').html(obj[index].proContent);
         })
 
+        function modifyProDetail(index){
+            //存储
+            window.sessionStorage.setItem("proId", obj[index].id);
+            $("#homeDiv").load("manager/proManager/modifyProDetail.html");
+        }
+
     </script>
 </head>
 <body>
@@ -245,6 +255,7 @@
                 <th id="proTitle">标题</th>
                 <th id="proContent">内容</th>
                 <th id="createTime">创建时间</th>
+                <th id="modify">修改</th>
                 </thead>
                 <tbody>
                 </tbody>

@@ -4,6 +4,163 @@
     <meta charset="UTF-8">
     <title>问题详情</title>
     <script src="common.js"></script>
+
+    <style type="text/css">
+
+        .block {
+            display: inline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="form-group form-inline">
+        <button type="button" class="btn btn-info pull-right" onclick="goBackProList()">返回</button>
+    </div>
+    <div class="form-group form-inline">
+        <label for="proTitle">标题:</label>
+        <textarea class="form-control" id="proTitle" name="proTitle" placeholder="请输入简要描述" rows="2" cols="80" disabled="true"></textarea>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addTagModal" >添加标签</button>
+    </div>
+    <div class="form-group form-inline">
+        <label id="tagListShow">标签:</label>
+        <input id="tagIds" value="" type="hidden"/>
+    </div>
+    <div class="form-group form-inline">
+        <label for="editor">内容:</label>
+        <div id="editor" >
+        </div>
+    </div>
+
+    <button class="btn btn-success pull-right" id="proSubmitBtn">提交</button>
+    <button class="btn btn-success pull-right" id="preViewBtn">预览</button>
+    <br><br><br>
+    <div id="preViewDiv">
+
+    </div>
+    <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+    <script type="text/javascript" src="wangEditor.min.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+        // 或者 var editor = new E( document.getElementById('#editor') )
+        // 下面两个配置，使用其中一个即可显示“上传图片”的tab。但是两者不要同时使用！！！
+        //editor.customConfig.uploadImgShowBase64 = true   // 使用 base64 保存图片
+        editor.customConfig.withCredentials = false;
+        editor.customConfig.uploadImgServer = SERVER_PRO_URL+'/abaoworld/problem/upload';  // 上传图片到服务器
+        editor.customConfig.uploadFileName = 'myFileName';
+        editor.customConfig.uploadImgHeaders = {
+            'Accept': 'text/x-json'
+        };
+        editor.customConfig.uploadImgHooks = {
+            before: function (xhr, editor, files) {
+                console.log("before");
+            },
+            success: function (xhr, editor, result) {
+                console.log("success");
+            },
+            fail: function (xhr, editor, result) {
+                console.log("fail");
+            },
+            error: function (xhr, editor) {
+                console.log("error");
+            },
+            timeout: function (xhr, editor) {
+                console.log("timeout");
+            },
+
+            // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+            // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
+            customInsert: function (insertImg, result, editor) {
+                console.log("customInsert");
+                var url = result.url
+                insertImg(url)
+            }
+        };
+        editor.create();
+
+        document.getElementById('proSubmitBtn').addEventListener('click', function () {
+            addProSubmit();
+        }, false);
+
+        document.getElementById('preViewBtn').addEventListener('click', function () {
+            $('#preViewDiv').html(editor.txt.html());
+        }, false);
+
+
+
+        function addProSubmit() {
+
+            $.ajax({
+                type: 'POST',
+                url: SERVER_PRO_URL+'/abaoworld/problem/addPro',
+                data:
+                    {
+                        "proTitle":$("#proTitle").val(),
+                        "proContent":editor.txt.html(),
+                        "tagIds":$("#tagIds").val()
+                    },
+
+                crossDomain: true,
+                dataType: "jsonp",
+                jsonp: "callback",
+                success: function (data) {
+                    var homeDiv = window.parent.document.getElementById("homeDiv");
+                    console.log("返回响应结果:"+data.rspCode+"-"+data.rspMsg);
+                    if(data.rspCode=='0000'){
+                        $(homeDiv).load("manager/proManager/proListShow.html");
+                    }else{
+                        alert("登录失败，原因:"+data.rspMsg);
+                    }
+
+                }
+            });
+
+        }
+
+        $('#addTagModal').on('show.bs.modal', function () {
+            // 查询并展示标签列表
+            console.log('show taglist');
+            doPost(
+                '/abaoworld/problem/queryAllTags',
+                {},
+                function (data) {
+                    var total = data.body.total;
+                    var list = data.body.list;
+                    var tagListStr = "";
+                    for (var i = 0; i < list.length; i++) {
+                        tagListStr +="<div class='checkbox'><label><input type='checkbox' name='tagCheckBox' data-tagname='"+list[i].tagName+"' value='"+list[i].id+"'>"+list[i].tagName+"</label></div>";
+                    }
+                    $('#addTagDiv').html(tagListStr);
+
+                }
+            )
+        });
+
+
+
+
+
+
+        function confirmTagList() {
+            var tagIds = "";
+            var tagNames = "";
+
+            $("input:checkbox[name='tagCheckBox']:checked").each(function(){
+                tagIds += (","+$(this).val());
+                tagNames += ("|"+$(this).data('tagname'));
+            });
+            console.log(tagNames+"====="+tagIds);
+            tagIds = tagIds.removeFirst(",")
+            tagNames = tagNames.removeFirst("|");
+            $('#tagListShow').html('标签:'+tagNames);
+            $('#tagIds').val(tagIds);
+            $('#addTagModal').modal('hide');
+
+
+        }
+
+    </script>
     <script languge=javascript>
         console.log(window.sessionStorage.getItem("proTitle"));
 
@@ -34,57 +191,17 @@
                     }
 
                 }
-                $("#proDetailHeader").html("标题:"+data.body.proTitle);
-                $("#proSource").html("来源:"+data.body.source);
-                $("#proTagList").html("标签:"+tagNames);
-                $("#proDetailBody").html(data.body.proContent);
-
-                $("#visitCount").html("浏览"+data.body.visitCount);
-                $("#agreeCount").html("点赞"+data.body.agreeCount);
-                $("#commentCount").html("评论"+data.body.commentCount);
-
+                $("#proTitle").html(data.body.proTitle);
+                $("#tagListShow").html("标签:"+tagNames);
+                $("#tagIds").value=data.body.tagIds;
+                editor.txt.html(data.body.proContent)
             }
         });
-        
+
         function goBackProList() {
             $("#homeDiv").load("manager/proManager/proListShow.html");
         }
 
     </script>
-    <style type="text/css">
-
-        .block {
-            display: inline;
-        }
-
-    </style>
-</head>
-<body>
-
-    <div class="form-group form-inline">
-        <button type="button" class="btn btn-info pull-right" onclick="goBackProList()">返回</button>
-    </div>
-    <br><br>
-    <h3 id="proDetailHeader"></h3>
-    <h4 id="proSource"></h4>
-    <h4 id="proTagList"></h4>
-    <br>
-    <br>
-    <div id="proDetailBody"></div>
-
-
-
-    <div class="row pull-right" id="visitorShow">
-        <div class="form-inline">
-            <div id="visitCount" class="block">浏览次数</div>
-            <div id="agreeCount" class="block">点赞</div>
-            <div id="commentCount" class="block">评论</div>
-        </div>
-    </div>
-    <div id="commentList">
-
-
-    </div>
-
 </body>
 </html>

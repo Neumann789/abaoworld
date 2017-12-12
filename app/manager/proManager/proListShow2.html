@@ -26,6 +26,7 @@
                 dataType: "jsonp",
                 jsonp: "callback",
                 success: function (data) {
+                    console.info("333333333333");
                     if(data.rspCode!='0000'){
                         alert("失败，原因:"+data.rspMsg);
                         return;
